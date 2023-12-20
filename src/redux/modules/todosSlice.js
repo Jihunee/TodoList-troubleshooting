@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {};
+
 const todosSlice = createSlice({
   name: "todos",
-  initialState: {},
+  initialState,
   reducers: {},
 });
 
