@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { StyledDiv, StyledTable, StyledTh, StyledButton } from "./styles";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useQuery } from "react-query";
 import { getTodos } from "../../../api/todos";
 import { QUERY_KEYS } from "../../../hooks/queryKey";
@@ -15,25 +14,26 @@ import { QUERY_KEYS } from "../../../hooks/queryKey";
 function DetailBox() {
   // 다른 컴포넌트로 이동하기 위한 useNavigate
   const navigate = useNavigate();
-  const { data } = useQuery(QUERY_KEYS.TODOS, getTodos);
-  console.log(data);
+  const { data: todos } = useQuery(QUERY_KEYS.TODOS, getTodos);
+
+  const todo = todos.filter((t) => t.id === params.id);
 
   // 이전 컴포넌트에서 넘어온 parameter를 조회
   const params = useParams();
 
   // 이 컴포넌트에서 아이템을 사용하기 위해, params로 전달받은 id를 이용-todo를 filtering
-  const filteredTodos = data?.map((item) => item.id === params.id);
+  // const filteredTodos = data?.map((item) => item.id === params.id);
   // 화면이 최초 렌더링 되는 시점에 올바르지 않은 접근을 차단
   // 지금은 uuidv4()를 사용해서 새로고침할 때 마다 변경 -> DB 또는 Cookie 등 사용하면 해결
-  useEffect(() => {
-    if (filteredTodos.length <= 0 || filteredTodos.length > 1) {
-      alert("올바르지 않은 접근입니다. 메인페이지로 이동합니다.");
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (filteredTodos.length <= 0 || filteredTodos.length > 1) {
+  //     alert("올바르지 않은 접근입니다. 메인페이지로 이동합니다.");
+  //     navigate("/");
+  //   }
+  // }, []);
 
   // todo 객체를 얻어옴(filteredTodos는 무조건 요소가 1개여야 함)
-  const todo = filteredTodos[0];
+  // const todo = filteredTodos[0];
 
   // 이전 페이지로 가기 버튼을 선택했을 때, 컴포넌트 이동하는 함수
   const handleButtonClick = () => {
